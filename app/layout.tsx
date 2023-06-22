@@ -4,7 +4,9 @@ import { Inter } from 'next/font/google';
 import { cn } from '@lib/utils';
 
 import { Toaster } from '@components/ui/Toaster';
+
 import Navbar from '@components/Navbar';
+import Providers from '@components/Providers';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -29,12 +31,14 @@ const RootLayout = ({
 			)}
 		>
 			<body className='min-h-screen pt-12 bg-slate-50'>
-				<Navbar />
-				{authModal}
-				<div className='container max-w-7xl mx-auto h-full pt-12'>
-					{children}
-				</div>
-				<Toaster />
+				<Providers>
+					<Navbar />
+					{authModal}
+					<div className='container max-w-7xl mx-auto h-full pt-12'>
+						{children}
+					</div>
+					<Toaster />
+				</Providers>
 			</body>
 		</html>
 	);

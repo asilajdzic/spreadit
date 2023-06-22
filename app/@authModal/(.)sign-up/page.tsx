@@ -1,7 +1,7 @@
 import SignUp from '@components/SignUp';
 import CloseModal from '@components/CloseModal';
 
-const page = () => {
+const Page = () => {
 	return (
 		<div className='bg-zinc-900/20 fixed inset-0 z-10'>
 			<div className='container flex items-center h-full max-w-lg'>
@@ -16,4 +16,4 @@ const page = () => {
 	);
 };
 
-export default page;
+export default Page;
