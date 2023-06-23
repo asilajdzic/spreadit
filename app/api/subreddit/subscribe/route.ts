@@ -1,43 +1,45 @@
 import { getAuthSession } from '@lib/auth';
 import { db } from '@lib/db';
-import { SubredditValidator } from '@lib/validators/subreddit';
 import { z } from 'zod';
+import { SubredditSubscriptionValidator } from '@lib/validators/subreddit';
 
 export const POST = async (req: Request) => {
 	try {
 		const session = await getAuthSession();
-		if (!session?.user)
+
+		if (!session?.user) {
 			return new Response('Unauthorized', { status: 401 });
+		}
 
 		const body = await req.json();
-		const { name } = SubredditValidator.parse(body);
 
-		const subreditExists = await db.subreddit.findFirst({
+		const { subredditId } =
+			SubredditSubscriptionValidator.parse(body);
+
+		const subscriptionExists = await db.subscription.findFirst({
 			where: {
-				name,
+				subredditId,
+				userId: session.user.id,
 			},
 		});
 
-		if (subreditExists)
-			return new Response('Subreddit already exists', {
-				status: 409,
-			});
-
-		const subreddit = await db.subreddit.create({
-			data: { name, creatorId: session.user.id },
-		});
+		if (subscriptionExists) {
+			return new Response(
+				'You are already subscribed to this subreddit',
+				{ status: 400 }
+			);
+		}
 
 		await db.subscription.create({
 			data: {
+				subredditId,
 				userId: session.user.id,
-				subredditId: subreddit.id,
 			},
 		});
-		return new Response(subreddit.name);
 	} catch (error) {
 		if (error instanceof z.ZodError)
 			return new Response(error.message, { status: 422 });
-		return new Response('Could not create subreddit', {
+		return new Response('Could not subscribe', {
 			status: 500,
 		});
 	}

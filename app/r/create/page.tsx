@@ -12,7 +12,7 @@ import { useCustomToast } from '@hooks/use-custom-toast';
 import { Input } from '@components/ui/Input';
 import { Button } from '@components/ui/Button';
 
-import { CreateSubredditPayload } from '@lib/validators/subredit';
+import { CreateSubredditPayload } from '@lib/validators/subreddit';
 
 const Page = () => {
 	const [input, setInput] = useState<string>('');
