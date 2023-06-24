@@ -99,21 +99,19 @@ const Layout = async ({
 										You created this community
 									</dt>
 								</div>
-							) : null}
-
-							{subreddit.creatorId !== session?.user?.id ? (
+							) : (
 								<SubscribeLeaveToggle
 									isSubscribed={isSubscribed}
 									subredditId={subreddit.id}
 									subredditName={subreddit.name}
 								/>
-							) : null}
+							)}
 							<Link
 								className={buttonVariants({
 									variant: 'outline',
 									className: 'w-full mb-6',
 								})}
-								href={`r/${slug}/submit`}
+								href={`/r/${slug}/submit`}
 							>
 								Create Post
 							</Link>
