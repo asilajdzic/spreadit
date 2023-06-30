@@ -1,17 +1,12 @@
 'use client';
 
-import '@/styles/editor.css';
-
 import EditorJS from '@editorjs/editorjs';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { usePathname, useRouter } from 'next/navigation';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { useMutation } from '@tanstack/react-query';
-import axios from 'axios';
-import { z } from 'zod';
-
 import TextareaAutosize from 'react-textarea-autosize';
+import { z } from 'zod';
 
 import { toast } from '@/hooks/use-toast';
 import { uploadFiles } from '@/lib/uploadthing';
@@ -19,6 +14,10 @@ import {
 	PostCreationRequest,
 	PostValidator,
 } from '@/lib/validators/post';
+import { useMutation } from '@tanstack/react-query';
+import axios from 'axios';
+
+import '@/styles/editor.css';
 
 type FormData = z.infer<typeof PostValidator>;
 
@@ -70,7 +69,6 @@ export const Editor: React.FC<EditorProps> = ({ subredditId }) => {
 			});
 		},
 		onSuccess: () => {
-			// turn pathname /r/mycommunity/submit into /r/mycommunity
 			const newPathname = pathname.split('/').slice(0, -1).join('/');
 			router.push(newPathname);
 
@@ -86,7 +84,6 @@ export const Editor: React.FC<EditorProps> = ({ subredditId }) => {
 		const EditorJS = (await import('@editorjs/editorjs')).default;
 		const Header = (await import('@editorjs/header')).default;
 		const Embed = (await import('@editorjs/embed')).default;
-		const Table = (await import('@editorjs/table')).default;
 		const List = (await import('@editorjs/list')).default;
 		const Code = (await import('@editorjs/code')).default;
 		const LinkTool = (await import('@editorjs/link')).default;
@@ -116,7 +113,6 @@ export const Editor: React.FC<EditorProps> = ({ subredditId }) => {
 						config: {
 							uploader: {
 								async uploadByFile(file: File) {
-									// upload to uploadthing
 									const [res] = await uploadFiles(
 										[file],
 										'imageUploader'
@@ -135,7 +131,6 @@ export const Editor: React.FC<EditorProps> = ({ subredditId }) => {
 					list: List,
 					code: Code,
 					inlineCode: InlineCode,
-					table: Table,
 					embed: Embed,
 				},
 			});

@@ -1,10 +1,11 @@
-import { INFINE_SCROLLING_PAGINATION_RESULTS } from '@config';
+import { INFINITE_SCROLLING_PAGINATION_RESULTS } from '@config';
 import { getAuthSession } from '@lib/auth';
 import { db } from '@lib/db';
 import { FC } from 'react';
 import { notFound } from 'next/navigation';
 
 import MiniCreatePost from '@components/MiniCreatePost';
+import PostFeed from '@components/PostFeed';
 
 interface pageProps {
 	params: {
@@ -27,7 +28,7 @@ const page: FC<pageProps> = async ({ params }) => {
 					comments: true,
 					subreddit: true,
 				},
-				take: INFINE_SCROLLING_PAGINATION_RESULTS,
+				take: INFINITE_SCROLLING_PAGINATION_RESULTS,
 			},
 		},
 	});
@@ -40,6 +41,10 @@ const page: FC<pageProps> = async ({ params }) => {
 				r/{subreddit.name}
 			</h1>
 			<MiniCreatePost session={session} />
+			<PostFeed
+				initialPosts={subreddit.posts}
+				subredditName={subreddit.name}
+			/>
 		</>
 	);
 };
