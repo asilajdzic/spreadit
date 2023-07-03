@@ -142,7 +142,7 @@ export async function PATCH(req: Request) {
 		}
 
 		return new Response(
-			'Could not vote at this time. Please try later',
+			'Could not post to subreddit at this time. Please try later',
 			{ status: 500 }
 		);
 	}
