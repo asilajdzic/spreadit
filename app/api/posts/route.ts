@@ -2,7 +2,7 @@ import { getAuthSession } from '@/lib/auth';
 import { db } from '@/lib/db';
 import { z } from 'zod';
 
-export async function GET(req: Request) {
+export const GET = async (req: Request) => {
 	const url = new URL(req.url);
 
 	const session = await getAuthSession();
@@ -74,4 +74,4 @@ export async function GET(req: Request) {
 	} catch (error) {
 		return new Response('Could not fetch posts', { status: 500 });
 	}
-}
+};

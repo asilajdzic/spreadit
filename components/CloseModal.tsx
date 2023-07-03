@@ -9,7 +9,7 @@ const CloseModal = () => {
 	return (
 		<Button
 			variant='secondary'
-			aria-abel='close modal'
+			aria-label='close modal'
 			onClick={() => router.back()}
 		>
 			<X className='h-4 w-4' />
