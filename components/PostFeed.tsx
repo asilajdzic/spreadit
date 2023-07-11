@@ -5,7 +5,7 @@ import { ExtendedPost } from '@/types/db';
 import { useIntersection } from '@mantine/hooks';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import axios from 'axios';
-import { FC, useRef } from 'react';
+import { FC, useEffect, useRef } from 'react';
 import Post from './Post';
 import { useSession } from 'next-auth/react';
 
@@ -44,6 +44,12 @@ const PostFeed: FC<PostFeedProps> = ({
 				initialData: { pages: [initialPosts], pageParams: [1] },
 			}
 		);
+
+	useEffect(() => {
+		if (entry?.isIntersecting) {
+			fetchNextPage();
+		}
+	}, [entry, fetchNextPage]);
 
 	const posts = data?.pages.flatMap((page) => page) ?? initialPosts;
 
